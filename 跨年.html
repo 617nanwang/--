@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026跨年祝福·致莫绪芬</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            height: 100vh;
+            background-color: #0a0a1a;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        #bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.8;
+            background-image: url("https://picsum.photos/id/1040/1920/1080");
+            background-image: url("http://image.aibochinese.com/i/2025/11/25/qys030.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px #ff6b6b;
+            animation: flash 2s infinite alternate;
+            text-shadow: 0 0 20px rgba(0,0,0,0.8);
+            z-index: 1;
+            opacity: 0.6;
+        }
+        .countdown {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            z-index: 1;
+        }
+        .time-box {
+            text-align: center;
+            background: rgba(0,0,0,0.1);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            backdrop-filter: blur(8px);
+            opacity: 0.6;
+        }
+        .time {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffd166;
+            text-shadow: 0 0 10px rgba(0,0,0,0.6);
+        }
+        .label {
+            font-size: 0.9rem;
+            color: #d1d1e0;
+            text-shadow: 0 0 8px rgba(0,0,0,0.6);
+        }
+        #blessing {
+            font-size: 1.2rem;
+            color: #f0f0ff;
+            opacity: 0.8;
+            transition: opacity 1s ease;
+            text-align: center;
+            max-width: 80%;
+            line-height: 1.8;
+            text-shadow: 0 0 12px rgba(255,107,107,0.5);
+            z-index: 1;
+            white-space: pre-line; /* 保留换行，贴合情感节奏 */
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.9;
+        }
+        /* 漂浮文字：一行显示+加快速度 */
+        .floating-text {
+            position: absolute;
+            color: #fff;
+            text-shadow: 0 0 18px #ff8c8c;
+            font-size: 1rem;
+            font-weight: 500;
+            pointer-events: none;
+            z-index: 2;
+            animation: floatLeftToRight 18s linear infinite; /* 速度加快（18-25秒） */
+            white-space: nowrap; /* 强制一行 */
+            line-height: 1.4;
+        }
+        /* 红色漂浮文字（专属“我爱你”） */
+        .floating-text.red {
+            color: #ff4444;
+            text-shadow: 0 0 20px #ff0000;
+            font-weight: bold;
+        }
+        /* 音乐控制按钮 */
+        .music-control {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        .music-control:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+        .music-icon {
+            font-size: 1.5rem;
+            color: #ffd166;
+        }
+        /* 加快漂浮动画，保持阅读节奏 */
+        @keyframes floatLeftToRight {
+            0% {
+                transform: translateX(-500px) translateY(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(calc(100vw + 500px)) translateY(var(--y-offset));
+                opacity: 0;
+            }
+        }
+        @keyframes flash {
+            from { opacity: 0.5; }
+            to { opacity: 0.7; text-shadow: 0 0 25px #ff6b6b; }
+        }
+    </style>
+</head>
+<body>
+    <div id="bg"></div>
+    <h1>距离2026年还有</h1>
+    <div class="countdown">
+        <div class="time-box">
+            <div class="time" id="days">00</div>
+            <div class="label">天</div>
+        </div>
+        <div class="time-box">
+            <div class="time" id="hours">00</div>
+            <div class="label">时</div>
+        </div>
+        <div class="time-box">
+            <div class="time" id="minutes">00</div>
+            <div class="label">分</div>
+        </div>
+        <div class="time-box">
+            <div class="time" id="seconds">00</div>
+            <div class="label">秒</div>
+        </div>
+    </div>
+    <div id="blessing">致莫绪芬：
+前程似锦
+新的一年，祝你好运
+以后我就不在了，但是有啥问题还是可以来找我的哈，虽然我还是找不到什么理由去找你
+真没想到分别的那天来得这么早😭
+但我不后悔，要是还能回到相遇那天我也还是会大胆一点
+还有就是以后要好好的照顾自己，对自己好一点
+记住：我不在了也得好好学习，期待你26年的高考成绩，但不过有我保佑，肯定会很好的
+还有要好好吃饭，少生气，少内耗
+这个冬天我说过会去找你的，我会去履行自己的承诺，那怕是自己一个人
+冬天见，或许不会再见
+最后：莫绪芬，我爱你，我不后悔，我只后悔没有好好的珍惜这617天
+如果注定不会重新开始，那就祝你早一点遇到你的白马王子，那就把我忘了吧</div>
+    <canvas id="fireworks"></canvas>
+
+    <!-- 你指定的歌曲 -->
+    <audio id="blessing-music" loop preload="auto">
+        <source src="https://bc6.afbza.cn/mqrcode/1777647/1764070158_9380602771_艾比利-一个人想着一个人(说唱版).mp3" type="audio/mpeg">
+        <!-- 备用链接（防止原链接失效） -->
+        <source src="https://cdn.pixabay.com/download/audio/2023/05/25/audio_2f0d5997f8.mp3?filename=gentle-piano-123116.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 音乐控制按钮 -->
+    <div class="music-control" id="musicBtn">
+        <span class="music-icon">▶️</span>
+    </div>
+
+    <script>
+        // 倒计时功能
+        function updateCountdown() {
+            const now = new Date();
+            const target = new Date('2026-01-01 00:00:00');
+            const diff = target - now;
+
+            if (diff <= 0) {
+                document.querySelector('h1').textContent = '新年快乐！2026';
+                document.querySelector('.countdown').style.display = 'none';
+                document.getElementById('blessing').style.opacity = '1';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // 初始化倒计时
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // 音乐控制功能
+        const music = document.getElementById('blessing-music');
+        const musicBtn = document.getElementById('musicBtn');
+        const musicIcon = musicBtn.querySelector('.music-icon');
+        let isPlaying = false;
+
+        // 点击按钮控制播放/暂停
+        musicBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                music.pause();
+                musicIcon.textContent = '▶️';
+            } else {
+                music.play().catch(err => {
+                    // 解决浏览器自动播放限制，提示用户交互
+                    alert('请点击页面任意位置后，再点击播放音乐～');
+                });
+                musicIcon.textContent = '⏸️';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // 点击页面任意位置触发音乐播放权限（解决浏览器限制）
+        document.body.addEventListener('click', () => {
+            if (!isPlaying && music.paused) {
+                music.play().catch(() => {});
+            }
+        }, { once: true });
+
+        // 烟花效果（补全原有未完成代码）
+        const canvas = document.getElementById('fireworks');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        class Firework {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height;
+                this.speedY = Math.random() * 5 + 5;
+                this.speedX = Math.random() * 4 - 2;
+                this.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                this.exploded = false;
+                this.particles = [];
+            }
+
+            update() {
+                if (!this.exploded) {
+                    this.y -= this.speedY;
+                    this.x += this.speedX;
+                    this.speedY -= 0.1;
+                    if (this.speedY <= 0) this.exploded = true;
+                } else {
+                    if (this.particles.length === 0) {
+                        for (let i = 0; i < 100; i++) {
+                            this.particles.push(new Particle(this.x, this.y, this.color));
+                        }
+                    }
+                    this.particles.forEach(particle => particle.update());
+                    this.particles = this.particles.filter(particle => particle.alpha > 0);
+                }
+            }
+
+            draw() {
+                if (!this.exploded) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                } else {
+                    this.particles.forEach(particle => particle.draw());
+                }
+            }
+        }
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.speedX = Math.random() * 6 - 3;
+                this.speedY = Math.random() * 6 - 3;
+                this.color = color;
+                this.alpha = 1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.alpha -= 0.01;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 1, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        const fireworks = [];
+        setInterval(() => fireworks.push(new Firework()), 2000);
+
+        function animate() {
+            ctx.fillStyle = 'rgba(10, 10, 26, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            fireworks.forEach(firework => {
+                firework.update();
+                firework.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // 漂浮文字：替换为你的专属文案
+        const texts = [
+            "前程似锦",
+            "新的一年，祝你好运",
+            "有啥问题还是可以来找我",
+            "分别来得这么早😭",
+            "我不后悔遇见你",
+            "要好好照顾自己",
+            "对自己好一点",
+            "好好学习，高考顺利",
+            "我会保佑你",
+            "好好吃饭，少生气",
+            "少内耗",
+            "履行承诺，冬天见",
+            "莫绪芬，我爱你",
+            "珍惜这617天",
+            "祝你遇到白马王子"
+        ];
+
+        function createFloatingText() {
+            const text = document.createElement('div');
+            text.className = 'floating-text';
+            // 随机选取文字
+            const randomText = texts[Math.floor(Math.random() * texts.length)];
+            text.textContent = randomText;
+            // 若是“莫绪芬，我爱你”则添加红色类
+            if (randomText === "莫绪芬，我爱你") {
+                text.classList.add('red');
+            }
+            text.style.top = `${Math.random() * 100}vh`;
+            text.style.setProperty('--y-offset', `${Math.random() * 50 - 25}px`);
+            document.body.appendChild(text);
+
+            setTimeout(() => {
+                text.remove();
+            }, 18000);
+        }
+
+        setInterval(createFloatingText, 3000);
+        createFloatingText();
+    </script>
+</body>
+</html>
